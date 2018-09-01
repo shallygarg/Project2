@@ -22,6 +22,12 @@ var API = {
       type: "GET"
     });
   },
+  updateExamples: function() {
+    return $.ajax({
+      url: "api/examples" + id,
+      type: "PUT"
+    });
+  },
   deleteExample: function(id) {
     return $.ajax({
       url: "api/examples/" + id,
@@ -45,11 +51,16 @@ var refreshExamples = function() {
         })
         .append($a);
 
+      var $edit = $("<button>")
+        .addClass("btn btn-primary float-right edit")
+        .text("Edit");
+
       var $button = $("<button>")
         .addClass("btn btn-danger float-right delete")
         .text("ｘ");
 
       $li.append($button);
+      $li.append($edit);
 
       return $li;
     });
@@ -58,6 +69,10 @@ var refreshExamples = function() {
     $exampleList.append($examples);
   });
 };
+
+// var updateExample = function() {
+
+// };
 
 // handleFormSubmit is called whenever we submit a new example
 // Save the new example to the db and refresh the list
@@ -82,6 +97,29 @@ var handleFormSubmit = function(event) {
   $exampleDescription.val("");
 };
 
+var handleEditBtnClick = function() {
+  event.preventDefault();
+
+  var example = {
+    text: $exampleEditText.val().trim(),
+    description: $exampleEditDescription.val().trim()
+  };
+
+  if (!(example.text && example.description)) {
+    alert("You must enter an post text and description!");
+    return;
+  }
+
+  var idToEdit = $(this)
+    .parent()
+    .attr("data-id");
+
+  API.updateExample(idToEdit).then(function() {
+    updateExample();
+    refreshExamples();
+  });
+};
+
 // handleDeleteBtnClick is called when an example's delete button is clicked
 // Remove the example from the db and refresh the list
 var handleDeleteBtnClick = function() {
@@ -96,4 +134,5 @@ var handleDeleteBtnClick = function() {
 
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
+$exampleList.on("click", ".edit", handleEditBtnClick);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
