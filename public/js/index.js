@@ -59,8 +59,11 @@ var refreshExamples = function() {
         .addClass("btn btn-danger float-right delete")
         .text("ｘ");
 
+      var $like = $("<button>").addClass("far fa-thumbs-up float-right like");
+
       $li.append($button);
       $li.append($edit);
+      $li.append($like);
 
       return $li;
     });
@@ -132,7 +135,12 @@ var handleDeleteBtnClick = function() {
   });
 };
 
+// var handleLikeBtnClick = function() {
+
+// }
+
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
 $exampleList.on("click", ".edit", handleEditBtnClick);
 $exampleList.on("click", ".delete", handleDeleteBtnClick);
+$exampleList.on("click", ".like", handleLikeBtnClick);
