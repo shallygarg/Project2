@@ -9,12 +9,12 @@
           <div class="card-body">
             <form class="clearfix mb-4" action="POST">
               <div class="form-group">
-                <label for="example-text">Post</label>
-                <input type="text" id="example-text" class="form-control" aria-describedby="example-text" placeholder="Title">
+                <label for="thread-text">Post</label>
+                <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text" placeholder="Title">
               </div>
               <div class="form-group">
-                <label for="example-description">Description</label>
-                <textarea class="form-control" id="example-description" aria-describedby="example-description" placeholder="Text (Optional)"></textarea>
+                <label for="thread-description">Description</label>
+                <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text (Optional)"></textarea>
               </div>
               <button id="submit" class="btn btn-primary float-right">Post</button>
             </form>
@@ -23,7 +23,7 @@
         <div class="card">
           <div class="card-body">
             <h3>Posts:</h3>
-            <ul id="example-list" class="list-group">
+            <ul id="thread-list" class="list-group">
               {{#each threads}}
                 <li data-id="{{this.id}}" class="list-group-item">
                   <a href="thread/{{this.id}}">{{this.text}}</a>
