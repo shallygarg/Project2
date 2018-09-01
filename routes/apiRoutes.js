@@ -1,35 +1,31 @@
 var db = require("../models");
 
 module.exports = function(app) {
-  // Get all examples
-  app.get("/api/examples", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.json(dbExamples);
+  // Get all threads
+  app.get("/api/threads", function(req, res) {
+    db.Thread.findAll({}).then(function(data) {
+      res.json(data);
     });
   });
 
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
+  // Create a new thread
+  app.post("/api/threads", function(req, res) {
+    db.Thread.create(req.body).then(function(data) {
+      res.json(data);
     });
   });
 
-  // Edit an example by id
-  app.put("/api/examples/:id", function(req, res) {
-    db.Example.update({ where: { id: req.params.id } }).then(function(
-      dbExample
-    ) {
-      res.json(dbExample);
+  // Edit a thread by id
+  app.put("/api/thread/:id", function(req, res) {
+    db.Thread.update({ where: { id: req.params.id } }).then(function(data) {
+      res.json(data);
     });
   });
 
-  // Delete an example by id
-  app.delete("/api/examples/:id", function(req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function(
-      dbExample
-    ) {
-      res.json(dbExample);
+  // Delete a thread by id
+  app.delete("/api/thread/:id", function(req, res) {
+    db.Thread.destroy({ where: { id: req.params.id } }).then(function(data) {
+      res.json(data);
     });
   });
 };
