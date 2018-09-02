@@ -1,53 +1,54 @@
 // Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
+var $threadText = $("#thread-text");
+var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+var $threadList = $("#thread-list");
+var counter = 0;
 
 // The API object contains methods for each kind of request we'll make
 var API = {
-  saveExample: function(example) {
+  saveThread: function(data) {
     return $.ajax({
       headers: {
         "Content-Type": "application/json"
       },
       type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
+      url: "api/threads",
+      data: JSON.stringify(data)
     });
   },
-  getExamples: function() {
+  getThreads: function() {
     return $.ajax({
-      url: "api/examples",
+      url: "api/threads",
       type: "GET"
     });
   },
-  updateExamples: function() {
+  updateThreads: function() {
     return $.ajax({
-      url: "api/examples" + id,
+      url: "api/thread" + id,
       type: "PUT"
     });
   },
-  deleteExample: function(id) {
+  deleteThread: function(id) {
     return $.ajax({
-      url: "api/examples/" + id,
+      url: "api/thread/" + id,
       type: "DELETE"
     });
   }
 };
 
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
+// refreshThreads gets new threads from the db and repopulates the list
+var refreshThreads = function() {
+  API.getThreads().then(function(data) {
+    var $threads = data.map(function(data) {
       var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
+        .text(data.text)
+        .attr("href", "/thread/" + data.id);
 
       var $li = $("<li>")
         .attr({
           class: "list-group-item",
-          "data-id": example.id
+          "data-id": data.id
         })
         .append($a);
 
@@ -59,56 +60,60 @@ var refreshExamples = function() {
         .addClass("btn btn-danger float-right delete")
         .text("ｘ");
 
-      var $like = $("<button>").addClass("far fa-thumbs-up float-right like");
+      var $like = $("<button>")
+        .addClass("btn btn-warning float-right like")
+        .text("Like");
+
+      var $count = $("<span>")
+        .addClass("float-right mr-5 disabled font-italic")
+        .attr("id", "count")
+        .text("Total Likes: " + counter);
 
       $li.append($button);
       $li.append($edit);
       $li.append($like);
+      $li.append($count);
 
       return $li;
     });
 
-    $exampleList.empty();
-    $exampleList.append($examples);
+    $threadList.empty();
+    $threadList.append($threads);
   });
 };
 
-// var updateExample = function() {
-
-// };
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
+// handleFormSubmit is called whenever we submit a new thread
+// Save the new thread to the db and refresh the list
 var handleFormSubmit = function(event) {
   event.preventDefault();
 
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+  var thread = {
+    text: $threadText.val().trim(),
+    description: $threadDescription.val().trim()
   };
 
-  if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
+  if (!(thread.text && thread.description)) {
+    alert("You must enter a thread text and description!");
     return;
   }
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
+  API.saveThread(thread).then(function() {
+    refreshThreads();
   });
 
-  $exampleText.val("");
-  $exampleDescription.val("");
+  $threadText.val("");
+  $threadDescription.val("");
 };
 
 var handleEditBtnClick = function() {
   event.preventDefault();
 
-  var example = {
-    text: $exampleEditText.val().trim(),
-    description: $exampleEditDescription.val().trim()
+  var thread = {
+    text: $threadEditText.val().trim(),
+    description: $threadEditDescription.val().trim()
   };
 
-  if (!(example.text && example.description)) {
+  if (!(thread.text && thread.description)) {
     alert("You must enter an post text and description!");
     return;
   }
@@ -117,30 +122,37 @@ var handleEditBtnClick = function() {
     .parent()
     .attr("data-id");
 
-  API.updateExample(idToEdit).then(function() {
-    updateExample();
-    refreshExamples();
+  API.updateThread(idToEdit).then(function() {
+    updateThread();
+    refreshThreads();
   });
 };
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
+// handleDeleteBtnClick is called when an thread's delete button is clicked
+// Remove the thread from the db and refresh the list
 var handleDeleteBtnClick = function() {
   var idToDelete = $(this)
     .parent()
     .attr("data-id");
 
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
+  API.deleteThread(idToDelete).then(function() {
+    refreshThreads();
   });
 };
 
-// var handleLikeBtnClick = function() {
-
-// }
+var handleLikeBtnClick = function() {
+  event.preventDefault();
+  counter = counter + 1;
+  var updateCount = { TotalLikes: $("#count").html(counter) };
+  API.updateThreads(updateCount).then(function() {
+    updateThreads();
+    refreshThreads();
+    location.reload();
+  });
+};
 
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".edit", handleEditBtnClick);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
-$exampleList.on("click", ".like", handleLikeBtnClick);
+$threadList.on("click", ".edit", handleEditBtnClick);
+$threadList.on("click", ".delete", handleDeleteBtnClick);
+$threadList.on("click", ".like", handleLikeBtnClick);
