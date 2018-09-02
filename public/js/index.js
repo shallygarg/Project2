@@ -3,6 +3,7 @@ var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
+var counter = 0;
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -59,8 +60,19 @@ var refreshThreads = function() {
         .addClass("btn btn-danger float-right delete")
         .text("ｘ");
 
+      var $like = $("<button>")
+        .addClass("btn btn-warning float-right like")
+        .text("Like");
+
+      var $count = $("<span>")
+        .addClass("float-right mr-5 disabled font-italic")
+        .attr("id", "count")
+        .text("Total Likes: " + counter);
+
       $li.append($button);
       $li.append($edit);
+      $li.append($like);
+      $li.append($count);
 
       return $li;
     });
@@ -69,10 +81,6 @@ var refreshThreads = function() {
     $threadList.append($threads);
   });
 };
-
-// var updateThread = function() {
-
-// };
 
 // handleFormSubmit is called whenever we submit a new thread
 // Save the new thread to the db and refresh the list
@@ -132,7 +140,19 @@ var handleDeleteBtnClick = function() {
   });
 };
 
+var handleLikeBtnClick = function() {
+  event.preventDefault();
+  counter = counter + 1;
+  var updateCount = { TotalLikes: $("#count").html(counter) };
+  API.updateThreads(updateCount).then(function() {
+    updateThreads();
+    refreshThreads();
+    location.reload();
+  });
+};
+
 // Add event listeners to the submit and delete buttons
 $submitBtn.on("click", handleFormSubmit);
 $threadList.on("click", ".edit", handleEditBtnClick);
 $threadList.on("click", ".delete", handleDeleteBtnClick);
+$threadList.on("click", ".like", handleLikeBtnClick);
