@@ -20,6 +20,15 @@ module.exports = function(app) {
     });
   });
 
+  // Render locations
+  app.get("/locations", function(req, res) {
+    db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
+      res.render("locations", {
+        location: data
+      });
+    });
+  });
+
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {
     res.render("404");
