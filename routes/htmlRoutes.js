@@ -16,7 +16,7 @@ module.exports = function(app) {
     db.Thread.findOne({
       where: { id: req.params.id },
       include: [db.Comment]
-        }).then(function(data) {
+    }).then(function(data) {
       res.render("thread", {
         thread: data
       });
