@@ -4,6 +4,8 @@ var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
 var counter = 0;
+var $commentDescription = $("#thread-description");
+
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -23,6 +25,15 @@ var API = {
       type: "GET"
     });
   },
+
+// Used to get the Comments
+  getComments: function() {
+    return $.ajax({
+      url: "api/comments",
+      type: "GET"
+    });
+  },
+
   updateThreads: function() {
     return $.ajax({
       url: "api/thread" + id,

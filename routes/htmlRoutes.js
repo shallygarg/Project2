@@ -13,7 +13,7 @@ module.exports = function(app) {
 
   // Load thread page and pass in a thread by id
   app.get("/thread/:id", function(req, res) {
-    db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
+    db.Thread.findOne({ where: { id: req.params.id },include: [db.Comment]}).then(function(data) {
       res.render("thread", {
         thread: data
       });

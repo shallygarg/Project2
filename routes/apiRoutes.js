@@ -15,6 +15,13 @@ module.exports = function(app) {
     });
   });
 
+  // Create a new Comment ----------------------
+  app.post("/api/comments", function(req, res) {
+    db.Comment.create(req.body).then(function(data) {
+      res.json(data);
+    });
+  });
+
   // Edit a thread by id
   app.put("/api/thread/:id", function(req, res) {
     db.Thread.update({ where: { id: req.params.id } }).then(function(data) {
