@@ -3,6 +3,7 @@
     <div class="col-8 offset-2">
       <div class="card mt-4">
         <div class="card-body">
+          <a href="/">← Back To Home</a>
           <h5 class="card-title">Thread</h5>
           <p>
             <strong>ID</strong>: {{thread.id}}</p>
@@ -11,7 +12,12 @@
             <strong>Text</strong>: {{thread.text}}</p>
           <p>
             <strong>Description:</strong> {{thread.description}}</p>
-            <a href="/">← Back To Home</a>
+        {{!-- Input form for adding comments to a particular thread --}}
+          <div class="form-group">
+            <label for="comment-description"><strong>Add Comment</strong></label>
+            <textarea class="form-control" id="comment-description" aria-describedby="comment-description" placeholder="Text (Optional)"></textarea>
+          </div>
+            <button id="submit" class="btn btn-primary float-right">Post</button>
         </div>
       </div>
     </div>
