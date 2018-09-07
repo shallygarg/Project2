@@ -13,9 +13,10 @@ module.exports = function(app) {
 
   // Load thread page and pass in a thread by id
   app.get("/thread/:id", function(req, res) {
-    db.Thread.findOne({ 
+    db.Thread.findOne({
       where: { id: req.params.id },
-      include: [db.Comment]}).then(function(data) {
+      include: [db.Comment]
+        }).then(function(data) {
       res.render("thread", {
         thread: data
       });
@@ -24,7 +25,7 @@ module.exports = function(app) {
 
   // Render locations
   app.get("/locations", function(req, res) {
-    db.Thread.findOne({ where:{ id: req.params.id } }).then(function(data) {
+    db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
       res.render("locations", {
         location: data
       });
