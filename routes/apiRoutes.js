@@ -16,8 +16,12 @@ module.exports = function(app) {
   });
 
   // Edit a thread by id
-  app.put("/api/thread/:id", function(req, res) {
-    db.Thread.update({ where: { id: req.params.id } }).then(function(data) {
+  app.put("/api/threads", function(req, res) {
+    db.Thread.update(req.body, {
+      where: {
+        id: req.body.id
+      }
+    }).then(function(data) {
       res.json(data);
     });
   });
