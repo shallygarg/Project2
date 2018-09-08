@@ -25,18 +25,14 @@ var API = {
     });
   },
 
-  // Used to get the Comments
-  getComments: function() {
-    return $.ajax({
-      url: "api/comments",
-      type: "GET"
-    });
-  },
 
-  updateThreads: function() {
+  //updateThreads: function() {
+
+  updateThread: function(id) {
     return $.ajax({
-      url: "api/thread" + id,
-      type: "PUT"
+      url: "api/threads" + id,
+      type: "PUT",
+      data: thread
     });
   },
   deleteThread: function(id) {
@@ -118,24 +114,16 @@ var handleFormSubmit = function(event) {
 var handleEditBtnClick = function() {
   event.preventDefault();
 
-  var thread = {
-    text: $threadEditText.val().trim(),
-    description: $threadEditDescription.val().trim()
-  };
-
-  if (!(thread.text && thread.description)) {
-    alert("You must enter an post text and description!");
-    return;
-  }
-
-  var idToEdit = $(this)
+  var currentThread = $(this)
     .parent()
-    .attr("data-id");
+    .parent()
+    .data("thread");
+  console.log(currentThread);
+  window.location.href = "/thread/edit/threadid=" + currentThread.id;
 
-  API.updateThread(idToEdit).then(function() {
-    updateThread();
-    refreshThreads();
-  });
+  // API.updateThread(currentThread).then(function() {
+  //   window.location.href = "/";
+  // });
 };
 
 // handleDeleteBtnClick is called when an thread's delete button is clicked
@@ -152,10 +140,8 @@ var handleDeleteBtnClick = function() {
 
 var handleLikeBtnClick = function() {
   event.preventDefault();
-  counter = counter + 1;
-  var updateCount = { TotalLikes: $("#count").html(counter) };
+  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
   API.updateThreads(updateCount).then(function() {
-    updateThreads();
     refreshThreads();
     location.reload();
   });
