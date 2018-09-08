@@ -15,6 +15,13 @@ module.exports = function(app) {
     });
   });
 
+  // Get all comments
+  app.get("/api/comments", function(req, res) {
+    db.Thread.findAll({}).then(function(data) {
+      res.json(data);
+    });
+  });
+
   // Create a new Comment ----------------------
   app.post("/api/comments", function(req, res) {
     db.Comment.create(req.body).then(function(data) {

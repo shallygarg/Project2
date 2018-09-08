@@ -3,8 +3,11 @@ var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
+
+var $commentDescription = $("#comment-description");
+var $commentSubmitBtn = $("#commentSubmit");
+
 var counter = 0;
-// var $commentDescription = $("#thread-description");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -15,6 +18,16 @@ var API = {
       },
       type: "POST",
       url: "api/threads",
+      data: JSON.stringify(data)
+    });
+  },
+  saveComment: function(data) {
+    return $.ajax({
+      headers: {
+        "Content-Type": "application/json"
+      },
+      type: "POST",
+      url: "/api/comments",
       data: JSON.stringify(data)
     });
   },
@@ -33,9 +46,9 @@ var API = {
     });
   },
 
-  updateThreads: function() {
+  updateThread: function(id) {
     return $.ajax({
-      url: "api/thread" + id,
+      url: "api/thread/" + id,
       type: "PUT"
     });
   },
@@ -115,6 +128,27 @@ var handleFormSubmit = function(event) {
   $threadDescription.val("");
 };
 
+// COMMENT handleFormSubmit is called whenever we submit a new comment
+// Save the new comment to the db and refresh the list
+var commentHandleFormSubmit = function(event) {
+  event.preventDefault();
+
+  var comment = {
+    description: $commentDescription.val().trim(),
+    ThreadId: $commentSubmitBtn.attr("data-id")
+  };
+  if (!comment.description) {
+    alert("You must enter a comment!");
+    return;
+  }
+
+  API.saveComment(comment).then(function() {
+    // refreshThreads();
+  });
+
+  $commentDescription.val("");
+};
+
 var handleEditBtnClick = function() {
   event.preventDefault();
 
@@ -162,7 +196,9 @@ var handleLikeBtnClick = function() {
 };
 
 // Add event listeners to the submit and delete buttons
+//TO DO: Consider adding document load ready logic or something
 $submitBtn.on("click", handleFormSubmit);
 $threadList.on("click", ".edit", handleEditBtnClick);
 $threadList.on("click", ".delete", handleDeleteBtnClick);
 $threadList.on("click", ".like", handleLikeBtnClick);
+$commentSubmitBtn.on("click", commentHandleFormSubmit);
