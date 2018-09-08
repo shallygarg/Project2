@@ -4,5 +4,12 @@ module.exports = function(sequelize, DataTypes) {
     description: DataTypes.TEXT,
     likes: DataTypes.INTEGER
   });
+  Thread.associate = function(models) {
+    // Associating Thread with Comment
+    // When an Thread is deleted, also delete any associated comments
+    Thread.hasMany(models.Comment, {
+      onDelete: "cascade"
+    });
+  };
   return Thread;
 };
