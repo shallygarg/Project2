@@ -38,14 +38,6 @@ var API = {
     });
   },
 
-  // Used to get the Comments
-  getComments: function() {
-    return $.ajax({
-      url: "api/comments",
-      type: "GET"
-    });
-  },
-
   updateThread: function(id) {
     return $.ajax({
       url: "api/threads/" + id,
