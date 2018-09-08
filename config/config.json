@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "root",
-    "password": "yunker",
+    "password": null,
     "database": "localThreads",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "c4llt3ch!!",
+    "password": null,
     "database": "testdb",
     "host": "localhost",
     "dialect": "mysql",
