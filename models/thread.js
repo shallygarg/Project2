@@ -8,5 +8,12 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: 0
     }
   });
+  Thread.associate = function(models) {
+    // Associating Thread with Comment
+    // When an Thread is deleted, also delete any associated comments
+    Thread.hasMany(models.Comment, {
+      onDelete: "cascade"
+    });
+  };
   return Thread;
 };

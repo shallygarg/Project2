@@ -17,9 +17,12 @@
             <label for="comment-description"><strong>Add Comment</strong></label>
             <textarea class="form-control" id="comment-description" aria-describedby="comment-description" placeholder="Text (Optional)"></textarea>
           </div>
-            <button id="submit" class="btn btn-primary float-right">Post</button>
+            <button id="commentSubmit" class="btn btn-primary float-right" data-id="{{thread.id}}">Post</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
