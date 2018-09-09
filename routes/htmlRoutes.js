@@ -21,10 +21,11 @@ module.exports = function(app) {
   });
 
   // Load page to edit post
-  app.get("/thread/edit/:id", function(req, res) {
-    db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
+  app.get("/threads/edit", function(req, res) {
+    db.Thread.findOne({ where: { id: req.params.id } }).then(function() {
       res.render("edit", {
-        thread: data
+        text: req.body.text,
+        description: req.body.description
       });
     });
   });

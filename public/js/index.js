@@ -3,8 +3,6 @@ var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
-var counter = 0;
-
 // The API object contains methods for each kind of request we'll make
 var API = {
   saveThread: function(data) {
@@ -23,9 +21,9 @@ var API = {
       type: "GET"
     });
   },
-  updateThread: function(id) {
+  updateThread: function(thread) {
     return $.ajax({
-      url: "api/threads" + id,
+      url: "api/threads",
       type: "PUT",
       data: thread
     });
@@ -65,15 +63,9 @@ var refreshThreads = function() {
         .addClass("btn btn-warning float-right like")
         .text("Like");
 
-      var $count = $("<span>")
-        .addClass("float-right mr-5 disabled font-italic")
-        .attr("id", "count")
-        .text("Total Likes: " + counter);
-
       $li.append($button);
       $li.append($edit);
       $li.append($like);
-      $li.append($count);
 
       return $li;
     });
@@ -107,38 +99,33 @@ var handleFormSubmit = function(event) {
 };
 
 var handleEditBtnClick = function() {
-  event.preventDefault();
-
   var currentThread = $(this)
     .parent()
-    .parent()
-    .data("thread");
+    .attr("data-id");
   console.log(currentThread);
-  window.location.href = "/thread/edit/threadid=" + currentThread.id;
-
-  // API.updateThread(currentThread).then(function() {
-  //   window.location.href = "/";
-  // });
+  window.location.href = "/threads/edit";
 };
 
-// handleDeleteBtnClick is called when an thread's delete button is clicked
-// Remove the thread from the db and refresh the list
 var handleDeleteBtnClick = function() {
   var idToDelete = $(this)
     .parent()
     .attr("data-id");
 
   API.deleteThread(idToDelete).then(function() {
-    refreshThreads();
+    window.location.reload();
   });
 };
 
-var handleLikeBtnClick = function() {
+var handleLikeBtnClick = function(event) {
   event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
-    refreshThreads();
-    location.reload();
+
+  console.log("button clicked");
+  var thread = $(this)
+    .parent()
+    .attr("data-id");
+  console.log(thread);
+  API.updateThread(thread).then(function() {
+    window.location.reload();
   });
 };
 
