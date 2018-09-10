@@ -1,3 +1,4 @@
+var bcrypt = require("bcrypt");
 var db = require("../models");
 
 module.exports = function(app) {
@@ -46,4 +47,15 @@ module.exports = function(app) {
       res.json(data);
     });
   });
+
+  // bcrypt
+  app.post("/bcrypt", function(req, res) {
+    var password = req.body.password;
+    var saltRounds = 10;
+    bcrypt.hash(password, saltRounds, function(err, passwordHashed) {
+      db.Profile.create({ password: passwordHashed }).then(function(data) {
+        res.json(data);
+      });
+    });
+  })
 };
