@@ -11,6 +11,12 @@ var env = process.env.NODE_ENV || "development";
 var config = require(__dirname + "/../config/config.json")[env];
 var db = {};
 var app = express()
+var router = express.Router();
+
+router.get('/', function(req, res, next){
+    res.send('Respond with a resource');
+})
+module.exports = router;
 
 app.post('/profile', upload.single('myimage'), function (req, res, next) {
 })
