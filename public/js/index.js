@@ -3,6 +3,7 @@ var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
+var $threadImage = $("#thread-image");
 
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
@@ -12,13 +13,17 @@ var counter = 0;
 // The API object contains methods for each kind of request we'll make
 var API = {
   saveThread: function(data) {
+    var formData = new FormData();
+    formData.append("text", data.text);
+    formData.append("description", data.text);
+    formData.append("image", data.image);
+
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "POST",
-      url: "api/threads",
-      data: JSON.stringify(data)
+      data: formData,
+      processData: false,
+      contentType: false,
+      url: "api/threads"
     });
   },
   saveComment: function(data) {
@@ -37,7 +42,6 @@ var API = {
       type: "GET"
     });
   },
-
   updateThread: function(id) {
     return $.ajax({
       url: "api/threads/" + id,
@@ -104,7 +108,8 @@ var handleFormSubmit = function(event) {
 
   var thread = {
     text: $threadText.val().trim(),
-    description: $threadDescription.val().trim()
+    description: $threadDescription.val().trim(),
+    image: $threadImage[0].files[0]
   };
 
   if (!(thread.text && thread.description)) {
@@ -118,6 +123,7 @@ var handleFormSubmit = function(event) {
 
   $threadText.val("");
   $threadDescription.val("");
+  $threadImage.val("");
 };
 
 // COMMENT handleFormSubmit is called whenever we submit a new comment
