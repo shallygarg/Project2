@@ -1,4 +1,14 @@
 var db = require("../models");
+var path = require("path");
+var multer = require("multer");
+var fs = require("fs");
+
+var imageUpload = multer({
+  dest: path.join(__dirname, "..", "public", "images", "uploads"),
+  limits: {
+    fileSize: 1024 * 1024 * 10
+  }
+});
 
 module.exports = function(app) {
   // Get all threads
@@ -9,10 +19,32 @@ module.exports = function(app) {
   });
 
   // Create a new thread
-  app.post("/api/threads", function(req, res) {
-    db.Thread.create(req.body).then(function(data) {
-      res.json(data);
-    });
+  app.post("/api/threads", imageUpload.single("image"), function(req, res) {
+    var createThread = function(imageFileName) {
+      var threadData = Object.assign(
+        { imageFileName: imageFileName },
+        req.body
+      );
+
+      db.Thread.create(threadData).then(function(data) {
+        res.json(data);
+      });
+    };
+
+    if (req.file && req.file.mimetype.indexOf("image/") === 0) {
+      var extension = req.file.originalname.split(".").pop();
+      var imageFileName = req.file.filename + "." + extension;
+      fs.rename(req.file.path, req.file.path + "." + extension, function(err) {
+        if (err) {
+          console.error(err);
+          res.status(500).json(err);
+        }
+
+        createThread(imageFileName);
+      });
+    } else {
+      createThread(imageFileName);
+    }
   });
 
   // Get all comments
