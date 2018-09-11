@@ -1,4 +1,8 @@
 var db = require("../models");
+var cfg = require("../data/config.js");
+var jwt = require("jwt-simple");
+//var path = require("path");
+//var auth = require("../models/auth.js")();
 
 module.exports = function(app) {
   // Get all threads
@@ -45,5 +49,34 @@ module.exports = function(app) {
     db.Thread.destroy({ where: { id: req.params.id } }).then(function(data) {
       res.json(data);
     });
+  });
+
+  app.post("/token", function(req, res) {
+    console.log("in token");
+    if (req.body.userEmail && req.body.userPassword) {
+      db.Users.findOne({
+        where: { email: req.body.userEmail, password: req.body.userPassword }
+      }).then(function(data) {
+        console.log("user found");
+        var payload = {
+          id: data.id,
+          email: data.email,
+          password: data.password
+        };
+        console.log(payload);
+        var token = jwt.encode(payload, cfg.jwtSecret);
+        console.log("payload id: " + payload.id);
+        console.log("payload email: " + payload.email);
+        console.log("payload password: " + payload.password);
+        console.log("token generated: " + token);
+        res.json({
+          token: token
+        });
+        res.json(data);
+      });
+    } else {
+      console.log("One of the value is empty");
+      res.sendStatus(401);
+    }
   });
 };

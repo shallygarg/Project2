@@ -4,3 +4,10 @@
 .card{
   margin: 15px;
 }
+.button{
+  display: inline-block;
+  padding: 3px 5px;
+  /* border: 1px solid #000;
+  background: #eee; */
+  color: rgba(0,0,0,.5);
+}

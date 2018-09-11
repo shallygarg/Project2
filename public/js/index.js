@@ -101,7 +101,6 @@ var refreshThreads = function() {
 // Save the new thread to the db and refresh the list
 var handleFormSubmit = function(event) {
   event.preventDefault();
-
   var thread = {
     text: $threadText.val().trim(),
     description: $threadDescription.val().trim()
@@ -177,6 +176,14 @@ var handleLikeBtnClick = function() {
   });
 };
 
+var handleLikeBtnClick = function() {
+  event.preventDefault();
+  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
+  API.updateThreads(updateCount).then(function() {
+    refreshThreads();
+    location.reload();
+  });
+};
 // Add event listeners to the submit and delete buttons
 //TO DO: Consider adding document load ready logic or something
 $submitBtn.on("click", handleFormSubmit);
