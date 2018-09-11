@@ -11,6 +11,22 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/signin", function(req, res) {
+    res.render("signin");
+  });
+
+  app.get("/signup", function(req, res) {
+    res.render("signup");
+  });
+
+  app.get("/signout", function(req, res) {
+    res.render("signout");
+  });
+
+  app.get("/secret", function(req, res) {
+    res.render("secret");
+  });
+
   // Load thread page and pass in a thread by id
   app.get("/thread/:id", function(req, res) {
     db.Thread.findOne({
