@@ -38,6 +38,7 @@ var handleSignIn = function() {
           type: "GET",
           data: token
         }).then(function(data) {
+          window.location.href = "/secret";
           console.log("in secret" + data);
         });
         //result.data.token

@@ -57,7 +57,8 @@ module.exports = function(app) {
       db.Users.findOne({
         where: { email: req.body.userEmail, password: req.body.userPassword }
       }).then(function(data) {
-        console.log("user found");
+        console.log("user found ----------------data");
+        console.log(data);
         var payload = {
           id: data.id,
           email: data.email,
@@ -72,7 +73,7 @@ module.exports = function(app) {
         res.json({
           token: token
         });
-        res.json(data);
+        //res.json(data);
       });
     } else {
       console.log("One of the value is empty");
