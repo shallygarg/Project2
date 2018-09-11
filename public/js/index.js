@@ -140,7 +140,7 @@ var commentHandleFormSubmit = function(event) {
   }
 
   API.saveComment(comment).then(function() {
-    // refreshThreads();
+    location.reload();
   });
 
   $commentDescription.val("");
