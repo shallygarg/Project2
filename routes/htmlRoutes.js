@@ -25,10 +25,10 @@ module.exports = function(app) {
 
   // Load page to edit post
   app.get("/threads/edit", function(req, res) {
-    db.Thread.findOne({ where: { id: req.params.id } }).then(function() {
+    db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
       res.render("edit", {
-        text: req.body.text,
-        description: req.body.description
+        test: "this is working",
+        thread: data
       });
     });
   });

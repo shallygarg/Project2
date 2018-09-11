@@ -8,6 +8,17 @@ module.exports = function(app) {
     });
   });
 
+  //get one thread
+  app.get("/api/threads/:id", function(req, res) {
+    db.Thread.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(data) {
+      res.json(data);
+    });
+  });
+
   // Create a new thread
   app.post("/api/threads", function(req, res) {
     db.Thread.create(req.body).then(function(data) {
@@ -29,8 +40,8 @@ module.exports = function(app) {
     });
   });
 
-  // Edit a thread by id
-  app.put("/api/threads", function(req, res) {
+  // Update a thread by id
+  app.put("/api/threads/:id", function(req, res) {
     db.Thread.update(req.body, {
       where: {
         id: req.body.id
