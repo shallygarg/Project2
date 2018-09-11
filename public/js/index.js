@@ -8,11 +8,8 @@ $(document).ready(function() {
   var $commentDescription = $("#comment-description");
   var $commentSubmitBtn = $("#commentSubmit");
 
-  var threadId;
-  //set flag for if we ar updating thread
-  var updating = false;
-  //getting query string from url
-  var url = window.location.search;
+  var $editForm = $("editForm");
+  var $editSubmitBtn = $("#editSubmit");
 
   // The API object contains methods for each kind of request we'll make
   var API = {
@@ -39,6 +36,12 @@ $(document).ready(function() {
     getThreads: function() {
       return $.ajax({
         url: "api/threads",
+        type: "GET"
+      });
+    },
+    getOneThread: function(id) {
+      return $.ajax({
+        url: "api/threads/" + id,
         type: "GET"
       });
     },
@@ -101,11 +104,6 @@ $(document).ready(function() {
     });
   };
 
-  if (url.indexOf("?thread_id=") !== -1) {
-    threadId = url.split("=")[1];
-    getThreadData(threadId);
-  }
-
   // handleFormSubmit is called whenever we submit a new thread
   // Save the new thread to the db and refresh the list
   var handleFormSubmit = function(event) {
@@ -121,32 +119,12 @@ $(document).ready(function() {
       return;
     }
 
-    if (updating) {
-      Thread.id = threadId;
-      API.updateThread(thread);
-      // window.reload.href("/");
-    } else {
-      API.saveThread(thread).then(function() {
-        refreshThreads();
-      });
-    }
+    API.saveThread(thread).then(function() {
+      refreshThreads();
+    });
     $threadText.val("");
     $threadDescription.val("");
   };
-
-  function getThreadData(id) {
-    $.get("/api/threads/" + id, function(data) {
-      if (data) {
-        // If this thread exists, grab text and description and input data to edit
-        $threadText.val(data.text);
-        $threadDescription.val(data.description);
-
-        // If we have a thread with this id, set a flag for us to know to update the post
-        // when we hit submit
-        updating = true;
-      }
-    });
-  }
 
   // COMMENT handleFormSubmit is called whenever we submit a new comment
   // Save the new comment to the db and refresh the list
@@ -163,10 +141,30 @@ $(document).ready(function() {
     }
 
     API.saveComment(comment).then(function() {
-      refreshThreads();
+      location.reload();
     });
 
     $commentDescription.val("");
+  };
+
+  var handleEditSubmit = function(event) {
+    event.preventDefault();
+
+    var thread = {
+      text: $threadText.val().trim(),
+      description: $threadDescription.val().trim(),
+      ThreadId: $editSubmitBtn.attr("data-id")
+    };
+
+    console.log(thread);
+    if (!(thread.text && thread.description)) {
+      alert("You must enter a thread text and description!");
+      return;
+    }
+
+    API.updateThread(thread).then(function() {
+      window.location.href = "/";
+    });
   };
 
   var handleEditBtnClick = function() {
@@ -175,7 +173,10 @@ $(document).ready(function() {
       .parent()
       .attr("data-id");
     console.log(idToEdit);
-    window.location.href = "/threads/edit?thread_id=" + idToEdit;
+    API.getOneThread(idToEdit).then(function(result) {
+      console.log(result);
+      window.location.href = "/threads/edit/" + idToEdit;
+    });
   };
 
   var handleDeleteBtnClick = function() {
@@ -209,4 +210,5 @@ $(document).ready(function() {
   $threadList.on("click", ".delete", handleDeleteBtnClick);
   $threadList.on("click", ".like", handleLikeBtnClick);
   $commentSubmitBtn.on("click", commentHandleFormSubmit);
+  $editForm.on("submit", handleEditSubmit);
 });
