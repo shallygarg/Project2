@@ -20,6 +20,7 @@ module.exports = function(app) {
       res.render("thread", {
         thread: data
       });
+      console.log(data.Comments[1].description);
     });
   });
 
