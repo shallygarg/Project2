@@ -4,6 +4,9 @@
       <div class="card mt-4">
         <div class="card-body">
           <a href="/">← Back To Home</a>
+          {{#if thread.imageFileName}}
+          <img class="img-fluid" src="/images/uploads/{{thread.imageFileName}}" />
+          {{/if}}
           <h5 class="card-title">Thread</h5>
           <p>
             <strong>ID</strong>: {{thread.id}}</p>
