@@ -83,6 +83,16 @@ module.exports = function(app) {
     });
   });
 
+  // Delete a thread by id
+  app.post("/api/thread/:id/like", function(req, res) {
+    db.Thread.findById(req.params.id).then(function(thread) {
+      thread.likes++;
+      thread.save().then(function(thread) {
+        res.json(thread);
+      });
+    });
+  });
+
   app.post("/token", function(req, res) {
     console.log("in token");
     if (req.body.userName && req.body.userPassword) {
