@@ -42,12 +42,12 @@ module.exports = function(app) {
 
   // Update a thread by id
   app.put("/api/threads", function(req, res) {
-    db.Thread.update({
-      where: {
-        id: req.params.id
-      }
+    console.log(res);
+    db.Thread.update(req.body, {
+      where: { id: req.params.id }
     }).then(function(data) {
       console.log(data);
+      console.log("-------------------");
       res.json(data);
     });
   });
