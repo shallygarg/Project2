@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-eslint": "^9.0.0",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "eslint-plugin-html": "^4.0.5",
@@ -22,11 +23,11 @@
     "jwt-simple": "^0.5.1",
     "multer": "^1.3.1",
     "mysql2": "^1.5.3",
-    "sequelize": "^4.38.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
