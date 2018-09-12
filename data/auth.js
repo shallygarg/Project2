@@ -1,7 +1,7 @@
 // auth.js
 var passport = require("passport");
 var passportJWT = require("passport-jwt");
-var users = require("./users.js");
+var db = require("../models");
 var cfg = require("../data/config.js");
 var ExtractJwt = passportJWT.ExtractJwt;
 var Strategy = passportJWT.Strategy;
@@ -12,7 +12,7 @@ var params = {
 
 module.exports = function() {
   var strategy = new Strategy(params, function(payload, done) {
-    var user = users[payload.id] || null;
+    var user = db.users[payload.id] || null;
     if (user) {
       return done(null, {
         id: user.id
