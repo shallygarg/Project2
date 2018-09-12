@@ -1,4 +1,5 @@
 var db = require("../models");
+var auth = require("../data/auth");
 
 module.exports = function(app) {
   // Load index page
@@ -23,10 +24,9 @@ module.exports = function(app) {
     res.render("signout");
   });
 
-  app.get("/secret", function(req, res) {
-    res.json({
-      success: true
-    });
+  app.get("/secret", auth.verifyToken, function(req, res) {
+    console.log(req.user);
+    res.render("secret");
   });
 
   // Load thread page and pass in a thread by id
@@ -65,5 +65,3 @@ module.exports = function(app) {
     res.render("404");
   });
 };
-
-

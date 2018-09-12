@@ -1,6 +1,7 @@
 var db = require("../models");
 var cfg = require("../data/config.js");
-var jwt = require("jwt-simple");
+//var jwt = require("jwt-simple");
+var jwt = require("jsonwebtoken");
 //var auth = require("../models/auth.js")();
 var path = require("path");
 var multer = require("multer");
@@ -97,15 +98,13 @@ module.exports = function(app) {
           });
         } else {
           var payload = {
-            id: data.id,
-            username: data.username,
-            password: data.password
+            id: data.id
           };
           console.log(payload);
-          var token = jwt.encode(payload, cfg.jwtSecret);
+          //
+          var token = jwt.sign(payload, cfg.jwtSecret);
+          console.log(cfg.jwtSecret + "secret in api routes");
           console.log("payload id: " + payload.id);
-          console.log("payload username: " + payload.username);
-          console.log("payload password: " + payload.password);
           console.log("token generated: " + token);
           res.json({
             token: token
