@@ -15,8 +15,8 @@ module.exports = function(app) {
     res.render("signin");
   });
 
-  app.get("/signup", function(req, res) {
-    res.render("signup");
+  app.get("/register", function(req, res) {
+    res.render("register");
   });
 
   app.get("/signout", function(req, res) {
@@ -24,7 +24,9 @@ module.exports = function(app) {
   });
 
   app.get("/secret", function(req, res) {
-    res.render("secret");
+    res.json({
+      success: true
+    });
   });
 
   // Load thread page and pass in a thread by id
@@ -63,3 +65,5 @@ module.exports = function(app) {
     res.render("404");
   });
 };
+
+

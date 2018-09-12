@@ -84,30 +84,63 @@ module.exports = function(app) {
 
   app.post("/token", function(req, res) {
     console.log("in token");
-    if (req.body.userEmail && req.body.userPassword) {
+    if (req.body.userName && req.body.userPassword) {
       db.Users.findOne({
-        where: { email: req.body.userEmail, password: req.body.userPassword }
+        where: { username: req.body.userName, password: req.body.userPassword }
       }).then(function(data) {
         console.log("user found ----------------data");
         console.log(data);
-        var payload = {
-          id: data.id,
-          email: data.email,
-          password: data.password
-        };
-        console.log(payload);
-        var token = jwt.encode(payload, cfg.jwtSecret);
-        console.log("payload id: " + payload.id);
-        console.log("payload email: " + payload.email);
-        console.log("payload password: " + payload.password);
-        console.log("token generated: " + token);
-        res.json({
-          token: token
-        });
-        //res.json(data);
+        if (data === null) {
+          console.log("user does not exist");
+          res.json({
+            message: "user does not exist. Please register before signing in"
+          });
+        } else {
+          var payload = {
+            id: data.id,
+            username: data.username,
+            password: data.password
+          };
+          console.log(payload);
+          var token = jwt.encode(payload, cfg.jwtSecret);
+          console.log("payload id: " + payload.id);
+          console.log("payload username: " + payload.username);
+          console.log("payload password: " + payload.password);
+          console.log("token generated: " + token);
+          res.json({
+            token: token
+          });
+          //res.json(data);
+        }
       });
     } else {
-      console.log("One of the value is empty");
+      console.log("Please enter credentials");
+      res.sendStatus(401);
+    }
+  });
+
+  app.post("/register", function(req, res){
+    console.log("Registering new user");
+    if (req.body.userName && req.body.userPassword) {
+      db.Users.findOne({
+        where: { username: req.body.userName }
+      }).then(function(data) {
+        if (data !== null) {
+          console.log("User already exists");
+          res.json({
+            message: "User already existst. Please select a different username"
+          });
+        } else {
+          db.Users.create({
+            username: req.body.userName,
+            password: req.body.userPassword
+          }).then(function(data) {
+            res.json(data);
+          });
+        }
+      });
+    } else {
+      console.log("Please enter a valid username and password");
       res.sendStatus(401);
     }
   });
