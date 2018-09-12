@@ -43,7 +43,7 @@ module.exports = function(app) {
   });
 
   // Load page to edit post
-  app.get("/thread/edit/:id", function(req, res) {
+  app.get("/threads/edit/:id", function(req, res) {
     db.Thread.findOne({ where: { id: req.params.id } }).then(function(data) {
       res.render("edit", {
         thread: data

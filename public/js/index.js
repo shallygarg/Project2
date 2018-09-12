@@ -8,7 +8,8 @@ var $threadImage = $("#thread-image");
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
 
-var counter = 0;
+var $editForm = $("editForm");
+var $editSubmitBtn = $("#editSubmit");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -42,10 +43,17 @@ var API = {
       type: "GET"
     });
   },
-  updateThread: function(id) {
+  getOneThread: function(id) {
     return $.ajax({
       url: "api/threads/" + id,
-      type: "PUT"
+      type: "GET"
+    });
+  },
+  updateThread: function(data) {
+    return $.ajax({
+      url: "api/thread",
+      type: "PUT",
+      data: data
     });
   },
   deleteThread: function(id) {
@@ -83,10 +91,9 @@ var refreshThreads = function() {
         .addClass("btn btn-warning float-right like")
         .text("Like");
 
-      var $count = $("<span>")
+      var $count = $("<p>")
         .addClass("float-right mr-5 disabled font-italic")
-        .attr("id", "count")
-        .text("Total Likes: " + counter);
+        .text("Total Likes: " + data.likes);
 
       $li.append($button);
       $li.append($edit);
@@ -119,7 +126,6 @@ var handleFormSubmit = function(event) {
   API.saveThread(thread).then(function() {
     refreshThreads();
   });
-
   $threadText.val("");
   $threadDescription.val("");
   $threadImage.val("");
@@ -146,23 +152,38 @@ var commentHandleFormSubmit = function(event) {
   $commentDescription.val("");
 };
 
-var handleEditBtnClick = function() {
+var handleEditSubmit = function(event) {
   event.preventDefault();
 
-  var currentThread = $(this)
-    .parent()
-    .parent()
-    .data("thread");
-  console.log(currentThread);
-  window.location.href = "/thread/edit/threadid=" + currentThread.id;
+  var thread = {
+    text: $threadText.val().trim(),
+    description: $threadDescription.val().trim(),
+    ThreadId: $editSubmitBtn.attr("data-id")
+  };
 
-  // API.updateThread(currentThread).then(function() {
-  //   window.location.href = "/";
-  // });
+  console.log(thread);
+  if (!(thread.text && thread.description)) {
+    alert("You must enter a thread text and description!");
+    return;
+  }
+
+  API.updateThread(thread).then(function() {
+    window.location.href = "/";
+  });
 };
 
-// handleDeleteBtnClick is called when an thread's delete button is clicked
-// Remove the thread from the db and refresh the list
+var handleEditBtnClick = function() {
+  event.preventDefault();
+  var idToEdit = $(this)
+    .parent()
+    .attr("data-id");
+  console.log(idToEdit);
+  API.getOneThread(idToEdit).then(function(result) {
+    console.log(result);
+    window.location.href = "/threads/edit/" + idToEdit;
+  });
+};
+
 var handleDeleteBtnClick = function() {
   var idToDelete = $(this)
     .parent()
@@ -173,12 +194,17 @@ var handleDeleteBtnClick = function() {
   });
 };
 
-var handleLikeBtnClick = function() {
+var handleLikeBtnClick = function(event) {
   event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
+
+  console.log("button clicked");
+  var thread = $(this)
+    .parent()
+    .attr("data-id");
+  console.log(thread);
+
+  API.updateThread(thread).then(function() {
     refreshThreads();
-    location.reload();
   });
 };
 
@@ -197,3 +223,4 @@ $threadList.on("click", ".edit", handleEditBtnClick);
 $threadList.on("click", ".delete", handleDeleteBtnClick);
 $threadList.on("click", ".like", handleLikeBtnClick);
 $commentSubmitBtn.on("click", commentHandleFormSubmit);
+$editForm.on("submit", handleEditSubmit);

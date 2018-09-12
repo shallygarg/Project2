@@ -6,18 +6,20 @@
 
         <div class="card">
           <div class="card-body">
-            <form class="clearfix mb-4" action="POST">
+            <form id="editForm" class="clearfix mb-4" action="/api/threads" method="POST">
               <div class="form-group">
                 <label for="thread-text">Post</label>
-                <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text">
-                {{thread.text}}
+                <input type="hidden" id="thread-text" name="_method" value="PUT">
+                <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text" placeholder={{thread.text}}>
               </div>
               <div class="form-group">
                 <label for="thread-description">Description</label>
-                        <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text (Optional)">{{thread.description}}</textarea>
+                        <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text">{{thread.description}}</textarea>
               </div>
-              <button id="submit" class="btn btn-primary float-right">Post</button>
+              <button type="submit" id="editSubmit" class="btn btn-primary float-right" data-id={{thread.id}}>Post</button>
+
             </form>
+
           </div>
         </div>
       </div>

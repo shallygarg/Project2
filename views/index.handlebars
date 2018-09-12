@@ -21,7 +21,7 @@
               </div>
               <div class="form-group">
                 <label for="thread-description">Description</label>
-                <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text (Optional)"></textarea>
+                <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text"></textarea>
               </div>
               <div class="form-group">
                 <label for="thread-image">Image</label>
@@ -41,7 +41,7 @@
                   <button class="btn btn-danger float-right delete">ｘ</button>
                   <button class="btn btn-primary float-right edit">Edit</button>
                   <button class="btn btn-warning float-right like">Like</button>
-                  <span class="float-right mr-5 disabled font-italic" id="count">Total Likes:</span>
+                  <p class="float-right mr-5 disabled font-italic" id="count">Total Likes: {{this.likes}}</p>
                 </li>
               {{/each}}
             </ul>

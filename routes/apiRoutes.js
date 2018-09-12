@@ -22,6 +22,17 @@ module.exports = function(app) {
     });
   });
 
+  //get one thread
+  app.get("/api/threads/:id", function(req, res) {
+    db.Thread.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(data) {
+      res.json(data);
+    });
+  });
+
   // Create a new thread
   app.post("/api/threads", imageUpload.single("image"), function(req, res) {
     var createThread = function(imageFileName) {
@@ -65,13 +76,14 @@ module.exports = function(app) {
     });
   });
 
-  // Edit a thread by id
+  // Update a thread by id
   app.put("/api/threads", function(req, res) {
+    console.log(res);
     db.Thread.update(req.body, {
-      where: {
-        id: req.body.id
-      }
+      where: { id: req.params.id }
     }).then(function(data) {
+      console.log(data);
+      console.log("-------------------");
       res.json(data);
     });
   });
@@ -118,7 +130,7 @@ module.exports = function(app) {
     }
   });
 
-  app.post("/register", function(req, res){
+  app.post("/register", function(req, res) {
     console.log("Registering new user");
     if (req.body.userName && req.body.userPassword) {
       db.Users.findOne({
