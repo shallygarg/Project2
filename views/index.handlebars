@@ -1,7 +1,7 @@
 <div id="home">
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2">        
+      <div class="col-8 offset-2">
         <a href="/signin" class="button">Signin</a>
         <a href="/signup" class="button">Signup</a>
         <a href="/signout" class="button">Signout</a>
@@ -41,7 +41,7 @@
                   <button class="btn btn-danger float-right delete">ｘ</button>
                   <button class="btn btn-primary float-right edit">Edit</button>
                   <button class="btn btn-warning float-right like">Like</button>
-                  <span class="float-right mr-5 disabled font-italic" id="count">Total Likes:</span>
+                  <span class="float-right mr-5 disabled font-italic" id="count">Total Likes: {{this.likes}}</span>
                 </li>
               {{/each}}
             </ul>

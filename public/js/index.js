@@ -8,8 +8,6 @@ var $threadImage = $("#thread-image");
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
 
-var counter = 0;
-
 // The API object contains methods for each kind of request we'll make
 var API = {
   saveThread: function(data) {
@@ -54,6 +52,12 @@ var API = {
       url: "api/thread/" + id,
       type: "DELETE"
     });
+  },
+  likeThread: function(id) {
+    return $.ajax({
+      url: "api/thread/" + id + "/like",
+      type: "POST"
+    });
   }
 };
 
@@ -87,7 +91,7 @@ var refreshThreads = function() {
       var $count = $("<span>")
         .addClass("float-right mr-5 disabled font-italic")
         .attr("id", "count")
-        .text("Total Likes: " + counter);
+        .text("Total Likes: " + data.likes);
 
       $li.append($button);
       $li.append($edit);
@@ -171,19 +175,13 @@ var handleDeleteBtnClick = function() {
 
 var handleLikeBtnClick = function() {
   event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
-    refreshThreads();
-    location.reload();
-  });
-};
 
-var handleLikeBtnClick = function() {
-  event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
+  var threadId = $(event.target)
+    .closest("[data-id]")
+    .attr("data-id");
+
+  API.likeThread(threadId).then(function() {
     refreshThreads();
-    location.reload();
   });
 };
 // Add event listeners to the submit and delete buttons
