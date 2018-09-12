@@ -131,7 +131,7 @@ module.exports = function(app) {
     }
   });
 
-  app.post("/register", function(req, res){
+  app.post("/register", function(req, res) {
     console.log("Registering new user");
     if (req.body.userName && req.body.userPassword) {
       db.Users.findOne({
