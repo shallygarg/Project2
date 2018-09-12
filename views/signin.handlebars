@@ -1,13 +1,26 @@
-{{!-- <form>
-          <input type = "text" placeholder="email" id = "email">
-          <input type="password" placeholder="password" id = "password">
-          <button id = "signin">Submit</button>
-        </form> --}}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 offset-lg-4">
+      <div class="card card-default">
+        <div class="card-header"><strong>Please Sign In</strong></div>
 
-<label> User Name </label>
-<input id = "username">
-<label> Password </label>
-<input id = "password" type = "password">
-<button id = "signin"> Signin</button>
+        <div class="card-body">
+          <fieldset>
+            <div class="form-group">
+              <input id="username" class="form-control" placeholder="Username" type="text" autofocus="">
+            </div>
+
+            <div class="form-group">
+              <input id="password" class="form-control" placeholder="Password" type="password" value="">
+            </div>
+
+            <a id="signin" href="javascript:void(0);" class="btn btn-lg btn-success btn-block">Login</a>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/signin.js"></script>
