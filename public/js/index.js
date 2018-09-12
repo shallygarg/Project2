@@ -42,10 +42,11 @@ var API = {
       type: "GET"
     });
   },
-  updateThread: function(id) {
+  updateThread: function(data) {
     return $.ajax({
-      url: "api/threads/" + id,
-      type: "PUT"
+      url: "api/threads",
+      type: "PUT",
+      data: JSON.stringify(data)
     });
   },
   deleteThread: function(id) {
@@ -149,16 +150,11 @@ var commentHandleFormSubmit = function(event) {
 var handleEditBtnClick = function() {
   event.preventDefault();
 
-  var currentThread = $(this)
-    .parent()
-    .parent()
-    .data("thread");
-  console.log(currentThread);
-  window.location.href = "/thread/edit/threadid=" + currentThread.id;
+  var threadId = $(this)
+    .closest("[data-id]")
+    .attr("data-id");
 
-  // API.updateThread(currentThread).then(function() {
-  //   window.location.href = "/";
-  // });
+  window.location.href = "/thread/" + threadId + "/edit";
 };
 
 // handleDeleteBtnClick is called when an thread's delete button is clicked

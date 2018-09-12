@@ -30,9 +30,21 @@ module.exports = function(app) {
         req.body
       );
 
-      db.Thread.create(threadData).then(function(data) {
-        res.json(data);
-      });
+      if (req.body.id) {
+        if (!req.file) {
+          delete threadData.imageFileName;
+        }
+
+        db.Thread.update(threadData, { where: { id: req.body.id } }).then(
+          function(data) {
+            res.json(data);
+          }
+        );
+      } else {
+        db.Thread.create(threadData).then(function(data) {
+          res.json(data);
+        });
+      }
     };
 
     if (req.file && req.file.mimetype.indexOf("image/") === 0) {
