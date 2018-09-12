@@ -33,20 +33,23 @@ $($signin).on("click", function(event) {
       window.location.href = "/register";
     } else {
       console.log("from server" + result.token);
-      localStorage.setItem("token ", result.token);
+      localStorage.setItem("token", result.token);
       var token = localStorage.getItem("token");
       console.log("from local storage " + token);
       if (token !== null) {
-        $.ajax("/secret", {
-          type: "GET",
-          data: token
-        }).then(function(data) {
-          console.log(data);
-          if (data.success === true) {
-            window.location.href = "/secret";
-            console.log("in secret" + data);
-          }
-        });
+        // $.ajax("/secret", {
+        //   type: "GET",
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader("Authorization", token);
+        //   }
+        // }).then(function(data) {
+        //   console.log(data);
+        //   // if (data.success === true) {
+        //   //   //window.location.href = "/secret";
+        //   //   console.log("in secret" + data);
+        //   // }
+        //});
+        window.location.href = "/secret?token=" + token;
       }
     }
   });
