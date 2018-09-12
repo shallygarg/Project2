@@ -11,6 +11,24 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/signin", function(req, res) {
+    res.render("signin");
+  });
+
+  app.get("/register", function(req, res) {
+    res.render("register");
+  });
+
+  app.get("/signout", function(req, res) {
+    res.render("signout");
+  });
+
+  app.get("/secret", function(req, res) {
+    res.json({
+      success: true
+    });
+  });
+
   // Load thread page and pass in a thread by id
   app.get("/thread/:id", function(req, res) {
     db.Thread.findOne({
@@ -20,6 +38,7 @@ module.exports = function(app) {
       res.render("thread", {
         thread: data
       });
+      console.log(data.Comments[1].description);
     });
   });
 
@@ -46,3 +65,5 @@ module.exports = function(app) {
     res.render("404");
   });
 };
+
+

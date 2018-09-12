@@ -1,13 +1,20 @@
 <div id="home">
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2">
+      <div class="col-8 offset-2">        
+        <a href="/signin" class="button">Signin</a>
+        <a href="/signup" class="button">Signup</a>
+        <a href="/signout" class="button">Signout</a>
+        {{!-- <button id = "signin" onclick=""> SignIn</button>
+        <button id = "signup"> SignUp</button>
+        <button id = "signout"> SignOut</button> --}}
+
         <h1>{{msg}}</h1>
         <h2>This is our Home Page!</h2>
 
         <div class="card">
           <div class="card-body">
-            <form class="clearfix mb-4" action="POST">
+            <form class="clearfix mb-4" action="POST" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="thread-text">Post</label>
                 <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text" placeholder="Title">
@@ -16,11 +23,11 @@
                 <label for="thread-description">Description</label>
                 <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text"></textarea>
               </div>
+              <div class="form-group">
+                <label for="thread-image">Image</label>
+                <input accept="image/*" type="file" name="image" class="form-control" id="thread-image" aria-describedby="thread-image" />
+              </div>
               <button id="submit" class="btn btn-primary float-right">Post</button>
-            </form>
-            <form method="post" enctype="multipart/form-data">
-              <input type="file" name="myimage" class="btn btn-primary float-left"/>&nbsp;&nbsp;
-              <input type="submit" name="submit" class="btn btn-success" value="Upload File"/>
             </form>
           </div>
         </div>
@@ -39,7 +46,7 @@
               {{/each}}
             </ul>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </div>

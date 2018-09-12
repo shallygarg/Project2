@@ -3,6 +3,7 @@ var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
+var $threadImage = $("#thread-image");
 
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
@@ -13,13 +14,17 @@ var $editSubmitBtn = $("#editSubmit");
 // The API object contains methods for each kind of request we'll make
 var API = {
   saveThread: function(data) {
+    var formData = new FormData();
+    formData.append("text", data.text);
+    formData.append("description", data.text);
+    formData.append("image", data.image);
+
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
       type: "POST",
-      url: "api/threads",
-      data: JSON.stringify(data)
+      data: formData,
+      processData: false,
+      contentType: false,
+      url: "api/threads"
     });
   },
   saveComment: function(data) {
@@ -107,10 +112,10 @@ var refreshThreads = function() {
 // Save the new thread to the db and refresh the list
 var handleFormSubmit = function(event) {
   event.preventDefault();
-
   var thread = {
     text: $threadText.val().trim(),
-    description: $threadDescription.val().trim()
+    description: $threadDescription.val().trim(),
+    image: $threadImage[0].files[0]
   };
 
   if (!(thread.text && thread.description)) {
@@ -123,6 +128,7 @@ var handleFormSubmit = function(event) {
   });
   $threadText.val("");
   $threadDescription.val("");
+  $threadImage.val("");
 };
 
 // COMMENT handleFormSubmit is called whenever we submit a new comment
@@ -202,6 +208,14 @@ var handleLikeBtnClick = function(event) {
   });
 };
 
+var handleLikeBtnClick = function() {
+  event.preventDefault();
+  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
+  API.updateThreads(updateCount).then(function() {
+    refreshThreads();
+    location.reload();
+  });
+};
 // Add event listeners to the submit and delete buttons
 //TO DO: Consider adding document load ready logic or something
 $submitBtn.on("click", handleFormSubmit);

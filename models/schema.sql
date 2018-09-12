@@ -1,5 +1,1 @@
-DROP DATABASE IF EXISTS localThreads;
-
-CREATE DATABASE localThreads;
-
 

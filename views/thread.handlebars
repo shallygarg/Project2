@@ -4,6 +4,9 @@
       <div class="card mt-4">
         <div class="card-body">
           <a href="/">← Back To Home</a>
+          {{#if thread.imageFileName}}
+          <img class="img-fluid" src="/images/uploads/{{thread.imageFileName}}" />
+          {{/if}}
           <h5 class="card-title">Thread</h5>
           <p>
             <strong>ID</strong>: {{thread.id}}</p>
@@ -19,6 +22,15 @@
           </div>
             <button id="commentSubmit" class="btn btn-primary float-right" data-id="{{thread.id}}">Post</button>
         </div>
+                  <div class="card-body">
+            <h3>Comments:</h3>
+              {{#each thread.Comments}}
+                <li data-id="{{this.id}}" class="list-group-item">
+                  <p>{{this.description}}</p>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
       </div>
     </div>
   </div>
