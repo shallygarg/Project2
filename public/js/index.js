@@ -44,10 +44,7 @@ var API = {
     return $.ajax({
       url: "api/threads",
       type: "PUT",
-      data: JSON.stringify(data),
-      beforeSend: function(request) {
-        request.setRequestHeader("Authorization", token);
-      }
+      data: JSON.stringify(data)
     }).then(function(data) {
       console.log(data);
     });
