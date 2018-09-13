@@ -54,9 +54,7 @@ $($register).on("click", function(event) {
       }).then(function(result) {
         console.log(result);
         if (result !== null) {
-          alert(
-            "User created successfully. You can signin to Local threads now"
-          );
+          alert(result.message);
           window.location.href = "/signin";
         }
       });

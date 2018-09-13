@@ -2,8 +2,28 @@ var db = require("../models");
 var auth = require("../data/auth");
 
 module.exports = function(app) {
+  var jwt = require("jsonwebtoken");
+  var cfg = require("../data/config.js");
+
+  function verifyToken(req, res, success) {
+    var token = req.query.token || req.headers.token; //token change
+    console.log(token + "------------------------------");
+    console.log(cfg.jwtSecret + "   secret");
+    jwt.verify(token, cfg.jwtSecret, function(err, decodedToken) {
+      //console.log(cfg.jwtSecret + "   secret");
+      console.log(decodedToken + "------decoded");
+      req.user = decodedToken;
+      if (decodedToken !== undefined) {
+        success();
+      } else {
+        console.log("you need to signin");
+      }
+    });
+  }
+
   // Load index page
-  app.get("/", auth.verifyToken, function(req, res) {
+
+  app.get("/", verifyToken, function(req, res) {
     db.Thread.findAll({}).then(function(data) {
       res.render("index", {
         msg: "Welcome to Local Threads!",

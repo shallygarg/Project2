@@ -7,9 +7,11 @@ function verifyToken(req, res, next) {
   console.log(cfg.jwtSecret + "   secret");
   jwt.verify(token, cfg.jwtSecret, function(err, decodedToken) {
     //console.log(cfg.jwtSecret + "   secret");
-    console.log(decodedToken + "--decodedcoded");
+    console.log(decodedToken + "------decoded");
     req.user = decodedToken;
-    next();
+    if (decodedToken !== undefined) {
+      next();
+    }
   });
 }
 

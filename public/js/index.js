@@ -1,9 +1,11 @@
 // Get references to page elements
+var $signout = $("#signout");
 var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
 var $threadImage = $("#thread-image");
+//var $home = $("#home");
 
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
@@ -187,6 +189,26 @@ var handleLikeBtnClick = function() {
     refreshThreads();
   });
 };
+
+$($signout).on("click", function() {
+  localStorage.setItem("token", "invalid");
+  var token = localStorage.getItem("token");
+  console.log("from local storage in signout" + token);
+  alert("you have successfully signedout");
+  if (token === "invalid") {
+    //window.location.href = "/secret?token=" + token;
+    window.location.href = "/signin";
+  }
+});
+
+$("#home").on("click", function() {
+  var token = localStorage.getItem("token");
+  if (token === "invalid") {
+    window.location.href = "/signin";
+  } else {
+    window.location.href = "/?token=" + token;
+  }
+});
 // Add event listeners to the submit and delete buttons
 //TO DO: Consider adding document load ready logic or something
 $submitBtn.on("click", handleFormSubmit);

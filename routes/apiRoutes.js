@@ -2,7 +2,6 @@ var db = require("../models");
 var cfg = require("../data/config.js");
 //var jwt = require("jwt-simple");
 var jwt = require("jsonwebtoken");
-//var auth = require("../models/auth.js")();
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
@@ -140,7 +139,7 @@ module.exports = function(app) {
     }
   });
 
-  app.post("/register", function(req, res){
+  app.post("/register", function(req, res) {
     console.log("Registering new user");
     if (req.body.userName && req.body.userPassword) {
       db.Users.findOne({
@@ -155,14 +154,20 @@ module.exports = function(app) {
           db.Users.create({
             username: req.body.userName,
             password: req.body.userPassword
-          }).then(function(data) {
-            res.json(data);
+            //data
+          }).then(function() {
+            res.json({
+              message:
+                "User created successfully. You can signin to Local threads now"
+            });
           });
         }
       });
     } else {
       console.log("Please enter a valid username and password");
-      res.sendStatus(401);
+      res.json({
+        message: "Please enter a valid username and password"
+      });
     }
   });
 };
