@@ -49,7 +49,8 @@ $($signin).on("click", function(event) {
         //   //   console.log("in secret" + data);
         //   // }
         //});
-        window.location.href = "/secret?token=" + token;
+        //window.location.href = "/secret?token=" + token;
+        window.location.href = "/?token=" + token;
       }
     }
   });

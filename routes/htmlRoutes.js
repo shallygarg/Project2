@@ -3,7 +3,7 @@ var auth = require("../data/auth");
 
 module.exports = function(app) {
   // Load index page
-  app.get("/", function(req, res) {
+  app.get("/", auth.verifyToken, function(req, res) {
     db.Thread.findAll({}).then(function(data) {
       res.render("index", {
         msg: "Welcome to Local Threads!",
