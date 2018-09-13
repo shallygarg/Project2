@@ -44,9 +44,15 @@ var API = {
     return $.ajax({
       url: "api/threads",
       type: "PUT",
-      data: JSON.stringify(data)
+      data: JSON.stringify(data),
+      beforeSend: function(request) {
+        request.setRequestHeader("Authorization", token);
+      }
+    }).then(function(data) {
+      console.log(data);
     });
   },
+
   deleteThread: function(id) {
     return $.ajax({
       url: "api/thread/" + id,

@@ -20,7 +20,6 @@ $($signin).on("click", function(event) {
     userPassword: user.password
   };
   // Send the POST request.
-  //$.ajax("/api/user", {
   $.ajax("/token", {
     type: "POST",
     data: JSON.stringify(newUser),
@@ -37,25 +36,9 @@ $($signin).on("click", function(event) {
       var token = localStorage.getItem("token");
       console.log("from local storage " + token);
       if (token !== null) {
-        // $.ajax("/secret", {
-        //   type: "GET",
-        //   beforeSend: function(request) {
-        //     request.setRequestHeader("Authorization", token);
-        //   }
-        // }).then(function(data) {
-        //   console.log(data);
-        //   // if (data.success === true) {
-        //   //   //window.location.href = "/secret";
-        //   //   console.log("in secret" + data);
-        //   // }
-        //});
         //window.location.href = "/secret?token=" + token;
         window.location.href = "/?token=" + token;
       }
     }
   });
-  //result.data.token
-  //window.location.replace("/")
-  //console.log(newUser);
-  //console.log("new user");
 });
