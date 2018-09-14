@@ -26,7 +26,7 @@ module.exports = function(app) {
   app.get("/", verifyToken, function(req, res) {
     db.Thread.findAll({}).then(function(data) {
       res.render("index", {
-        msg: "Welcome to Local Threads!",
+        msg: "Speak your mind!",
         threads: data
       });
     });
