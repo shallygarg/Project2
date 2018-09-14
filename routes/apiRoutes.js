@@ -2,7 +2,6 @@ var db = require("../models");
 var cfg = require("../data/config.js");
 //var jwt = require("jwt-simple");
 var jwt = require("jsonwebtoken");
-//var auth = require("../models/auth.js")();
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
@@ -33,9 +32,21 @@ module.exports = function(app) {
         req.body
       );
 
-      db.Thread.create(threadData).then(function(data) {
-        res.json(data);
-      });
+      if (req.body.id) {
+        if (!req.file) {
+          delete threadData.imageFileName;
+        }
+
+        db.Thread.update(threadData, { where: { id: req.body.id } }).then(
+          function(data) {
+            res.json(data);
+          }
+        );
+      } else {
+        db.Thread.create(threadData).then(function(data) {
+          res.json(data);
+        });
+      }
     };
 
     if (req.file && req.file.mimetype.indexOf("image/") === 0) {
@@ -83,6 +94,16 @@ module.exports = function(app) {
   app.delete("/api/thread/:id", function(req, res) {
     db.Thread.destroy({ where: { id: req.params.id } }).then(function(data) {
       res.json(data);
+    });
+  });
+
+  // Delete a thread by id
+  app.post("/api/thread/:id/like", function(req, res) {
+    db.Thread.findById(req.params.id).then(function(thread) {
+      thread.likes++;
+      thread.save().then(function(thread) {
+        res.json(thread);
+      });
     });
   });
 
@@ -149,6 +170,7 @@ module.exports = function(app) {
             message: "User already existst. Please select a different username"
           });
         } else {
+
           bcrypt.hash(req.body.userPassword, BCRYPT_SALT_ROUNDS, function(
             err,
             passwordHash
@@ -159,18 +181,30 @@ module.exports = function(app) {
               return;
             }
 
-            db.Users.create({
-              username: req.body.userName,
-              password: passwordHash
-            }).then(function(data) {
-              res.json(data);
+//             db.Users.create({
+//               username: req.body.userName,
+//               password: passwordHash
+//             }).then(function(data) {
+//               res.json(data);
+
+          db.Users.create({
+            username: req.body.userName,
+            password: req.body.userPassword
+            //data
+          }).then(function() {
+            res.json({
+              message:
+                "User created successfully. You can signin to Local threads now"
+
             });
           });
         }
       });
     } else {
       console.log("Please enter a valid username and password");
-      res.sendStatus(401);
+      res.json({
+        message: "Please enter a valid username and password"
+      });
     }
   });
 };

@@ -1,14 +1,14 @@
 // Get references to page elements
+var $signout = $("#signout");
 var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
 var $threadList = $("#thread-list");
 var $threadImage = $("#thread-image");
+//var $home = $("#home");
 
 var $commentDescription = $("#comment-description");
 var $commentSubmitBtn = $("#commentSubmit");
-
-var counter = 0;
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -42,16 +42,26 @@ var API = {
       type: "GET"
     });
   },
-  updateThread: function(id) {
+  updateThread: function(data) {
     return $.ajax({
-      url: "api/threads/" + id,
-      type: "PUT"
+      url: "api/threads",
+      type: "PUT",
+      data: JSON.stringify(data)
+    }).then(function(data) {
+      console.log(data);
     });
   },
+
   deleteThread: function(id) {
     return $.ajax({
       url: "api/thread/" + id,
       type: "DELETE"
+    });
+  },
+  likeThread: function(id) {
+    return $.ajax({
+      url: "api/thread/" + id + "/like",
+      type: "POST"
     });
   }
 };
@@ -86,7 +96,7 @@ var refreshThreads = function() {
       var $count = $("<span>")
         .addClass("float-right mr-5 disabled font-italic")
         .attr("id", "count")
-        .text("Total Likes: " + counter);
+        .text("Total Likes: " + data.likes);
 
       $li.append($button);
       $li.append($edit);
@@ -149,16 +159,11 @@ var commentHandleFormSubmit = function(event) {
 var handleEditBtnClick = function() {
   event.preventDefault();
 
-  var currentThread = $(this)
-    .parent()
-    .parent()
-    .data("thread");
-  console.log(currentThread);
-  window.location.href = "/thread/edit/threadid=" + currentThread.id;
+  var threadId = $(this)
+    .closest("[data-id]")
+    .attr("data-id");
 
-  // API.updateThread(currentThread).then(function() {
-  //   window.location.href = "/";
-  // });
+  window.location.href = "/thread/" + threadId + "/edit";
 };
 
 // handleDeleteBtnClick is called when an thread's delete button is clicked
@@ -175,21 +180,35 @@ var handleDeleteBtnClick = function() {
 
 var handleLikeBtnClick = function() {
   event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
+
+  var threadId = $(event.target)
+    .closest("[data-id]")
+    .attr("data-id");
+
+  API.likeThread(threadId).then(function() {
     refreshThreads();
-    location.reload();
   });
 };
 
-var handleLikeBtnClick = function() {
-  event.preventDefault();
-  var updateCount = { likes: $("#count").html("Total Likes: " + counter) };
-  API.updateThreads(updateCount).then(function() {
-    refreshThreads();
-    location.reload();
-  });
-};
+$($signout).on("click", function() {
+  localStorage.setItem("token", "invalid");
+  var token = localStorage.getItem("token");
+  console.log("from local storage in signout" + token);
+  alert("you have successfully signedout");
+  if (token === "invalid") {
+    //window.location.href = "/secret?token=" + token;
+    window.location.href = "/signin";
+  }
+});
+
+$("#home").on("click", function() {
+  var token = localStorage.getItem("token");
+  if (token === "invalid") {
+    window.location.href = "/signin";
+  } else {
+    window.location.href = "/?token=" + token;
+  }
+});
 // Add event listeners to the submit and delete buttons
 //TO DO: Consider adding document load ready logic or something
 $submitBtn.on("click", handleFormSubmit);
