@@ -44,6 +44,21 @@ $submitBtn.on("click", function(event) {
   }
 
   API.updateThread(thread).then(function() {
-    window.location = "/";
+    //window.location = "/";
+    var token = localStorage.getItem("token");
+    if (token === "invalid") {
+      window.location.href = "/signin";
+    } else {
+      window.location.href = "/?token=" + token;
+    }
   });
+});
+
+$("#homepage").on("click", function() {
+  var token = localStorage.getItem("token");
+  if (token === "invalid") {
+    window.location.href = "/signin";
+  } else {
+    window.location.href = "/?token=" + token;
+  }
 });
