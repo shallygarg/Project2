@@ -201,7 +201,7 @@ $($signout).on("click", function() {
   }
 });
 
-$("#home").on("click", function() {
+$("#homepage").on("click", function() {
   var token = localStorage.getItem("token");
   if (token === "invalid") {
     window.location.href = "/signin";
