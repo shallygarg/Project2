@@ -33,7 +33,7 @@ module.exports = function(app) {
   });
 
   app.get("/signin", function(req, res) {
-    res.render("signin");
+    res.render("signin", { bodyClass: "page-signin" });
   });
 
   app.get("/register", function(req, res) {

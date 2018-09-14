@@ -11,3 +11,11 @@
   background: #eee; */
   color: rgba(0,0,0,.5);
 }
+
+.page-signin {
+  background: #f8f8f8;
+}
+
+.page-signin card {
+  margin-top: 25%;
+}
