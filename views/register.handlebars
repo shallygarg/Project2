@@ -1,9 +1,33 @@
-<label> Select a username </label>
-<input id = "newUserID">
-<label> Select your Password </label>
-<input id = "newUserPassword" type = "password">
-<label> Re-enter Password </label>
-<input id = "reenterPassword" type = "password">
-<button id = "register"> Register </button>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 offset-lg-4">
+      <div class="card card-default">
+        <div class="card-header"><strong>Register</strong></div>
+
+        <div class="card-body">
+          <fieldset>
+            <div class="form-group">
+              <input id="newUserID" class="form-control" placeholder="Select a username" type="text" autofocus="">
+            </div>
+
+            <div class="form-group">
+              <input id="newUserPassword" class="form-control" placeholder="Select your password" type="password" value="">
+            </div>
+
+            <div class="form-group">
+              <input id="reenterPassword" class="form-control" placeholder="Re-enter password" type="password" value="">
+            </div>
+
+            <a id="register" href="javascript:void(0);" class="btn btn-lg btn-success btn-block">Register</a>
+
+            <a class="btn btn-block" href="/signin" class="button">Existing user</a>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/register.js"></script>
