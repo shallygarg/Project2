@@ -33,11 +33,11 @@ module.exports = function(app) {
   });
 
   app.get("/signin", function(req, res) {
-    res.render("signin", { bodyClass: "page-signin" });
+    res.render("signin", { bodyClass: "page-card" });
   });
 
   app.get("/register", function(req, res) {
-    res.render("register");
+    res.render("register", { bodyClass: "page-card" });
   });
 
   app.get("/signout", function(req, res) {
