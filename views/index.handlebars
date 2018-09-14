@@ -1,51 +1,55 @@
-<div id="home">
-  <div class="container">
-    <div class="row">
-      <div class="col-8 offset-2">
-        <button id = "signout"> Signout</button>
 
-        <h1>{{msg}}</h1>
-        <h2>This is our Home Page!</h2>
+<div class="container">
+  <div class="row">
+    <h1 class="mx-auto my-5 ">Welcome to Local Threads!</h1>
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card card-default">
+        <div class="card-header"><strong>Create a new post</strong></div>
 
-        <div class="card">
-          <div class="card-body">
-            <form class="clearfix mb-4" action="POST" enctype="multipart/form-data">
-              <div class="form-group">
-                <label for="thread-text">Post</label>
-                <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text" placeholder="Title">
-              </div>
-              <div class="form-group">
-                <label for="thread-description">Description</label>
-                <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text (Optional)"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="thread-image">Image</label>
-                <input accept="image/*" type="file" name="image" class="form-control" id="thread-image" aria-describedby="thread-image" />
-              </div>
-              <button id="submit" class="btn btn-primary float-right">Post</button>
-            </form>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <h3>Posts:</h3>
-            <ul id="thread-list" class="list-group">
-              {{#each threads}}
-                <li data-id="{{this.id}}" class="list-group-item">
-                  <a href="thread/{{this.id}}">{{this.text}}</a>
-                  <button class="btn btn-danger float-right delete">ｘ</button>
-                  <button class="btn btn-primary float-right edit">Edit</button>
-                  <button class="btn btn-warning float-right like">Like</button>
-                  <span class="float-right mr-5 disabled font-italic" id="count">Total Likes: {{this.likes}}</span>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
+        <div class="card-body">
+          <form class="clearfix mb-4" action="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="thread-text">Post</label>
+              <input type="text" id="thread-text" class="form-control" aria-describedby="thread-text" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label for="thread-description">Description</label>
+              <textarea class="form-control" id="thread-description" aria-describedby="thread-description" placeholder="Text (Optional)"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="thread-image">Image</label>
+              <input accept="image/*" type="file" name="image" class="form-control-file" id="thread-image" aria-describedby="thread-image" />
+            </div>
+            <button id="submit" class="btn btn-primary btn-block">Post</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div class="container">
+  <div class="row">
+    <div class="col-8 offset-2">
+      <div class="card">
+        <div class="card-header"><strong>Posts</strong></div>
+
+        <div class="card-body">
+          <ul id="thread-list" class="list-group">
+            {{#each threads}}
+              <li data-id="{{this.id}}" class="list-group-item">
+                <a href="thread/{{this.id}}">{{this.text}}</a>
+                <button class="btn btn-danger float-right delete">ｘ</button>
+                <button class="btn btn-primary float-right edit">Edit</button>
+                <button class="btn btn-warning float-right like">Like</button>
+                <span class="float-right mr-5 disabled font-italic" id="count">Total Likes: {{this.likes}}</span>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="/js/index.js"></script>
