@@ -1,10 +1,14 @@
 .list-group-item {
   line-height: 2.5;
-  border: 5px solid rgb(192, 190, 190);
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-size: 20px;
 }
 .card{
-  margin-top : 40px;
-
+  margin-top : 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .button{
   display: inline-block;
@@ -14,6 +18,9 @@
 
 .page-card {
   background: #f8f8f8;
+  background-image: url("assets/kid.jpeg");
+  background-size:cover;
+  background-repeat: no-repeat;
 }
 
 .page-card card {
@@ -37,8 +44,10 @@
 }
 
 body{
-  background-color: rgb(192, 190, 190);
+  /* background-color: rgb(192, 190, 190); */
+  background-image: url("assets/whitebackground.jpeg");
 }
+
 
 .newDescription{
   display: block;
@@ -57,19 +66,29 @@ body{
 .navbar-brand{
   font-size: 1.5rem;
 }
+
+.navbar{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .jumbotron{
-  margin-top: 10px;
   width: 100%;
-  height: 50px;
-  padding-top:30px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  padding-top: 30px;
+  background: rgba(246, 250, 246, 0);
 }
 
 #login{
-  background-color: green;
-  width: 305px;
-
+  background-color: rgb(32, 65, 173);
+  width: 95%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #comments{
   margin: 20px
+}
+
+.nav-link{
+  background-color: #343A40;
 }
