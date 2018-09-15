@@ -15,7 +15,7 @@ var API = {
   saveThread: function(data) {
     var formData = new FormData();
     formData.append("text", data.text);
-    formData.append("description", data.text);
+    formData.append("description", data.description);
     formData.append("image", data.image);
 
     return $.ajax({
@@ -69,17 +69,26 @@ var API = {
 // refreshThreads gets new threads from the db and repopulates the list
 var refreshThreads = function() {
   API.getThreads().then(function(data) {
+    console.log(data);
     var $threads = data.map(function(data) {
+      var $image = $("<img>").attr({
+        class: "img-fluid",
+        src: "/images/uploads/" + data.imageFileName
+      });
+
       var $a = $("<a>")
         .text(data.text)
         .attr("href", "/thread/" + data.id);
 
-      var $li = $("<li>")
-        .attr({
-          class: "list-group-item",
-          "data-id": data.id
-        })
-        .append($a);
+      var $li = $("<li>").attr({
+        class: "list-group-item",
+        "data-id": data.id
+      });
+
+      var $description = $("<p>")
+        .addClass("newDescription")
+        .text(data.description)
+        .attr("href", "/thread/" + data.id);
 
       var $edit = $("<button>")
         .addClass("btn btn-primary float-right edit")
@@ -90,14 +99,20 @@ var refreshThreads = function() {
         .text("ｘ");
 
       var $like = $("<button>")
-        .addClass("btn btn-warning float-right like")
-        .text("Like");
+        //.addClass("btn btn-warning float-right like")
+        .addClass("fa fa-thumbs-up float-right like");
+      //.text("Like");
 
       var $count = $("<span>")
         .addClass("float-right mr-5 disabled font-italic")
         .attr("id", "count")
         .text("Total Likes: " + data.likes);
 
+      $li.append($a);
+      if (data.imageFileName !== null) {
+        $li.append($image);
+      }
+      $li.append($description);
       $li.append($button);
       $li.append($edit);
       $li.append($like);
@@ -201,7 +216,7 @@ $($signout).on("click", function() {
   }
 });
 
-$("#homepage").on("click", function() {
+$(".homepage").on("click", function() {
   var token = localStorage.getItem("token");
   if (token === "invalid") {
     window.location.href = "/signin";

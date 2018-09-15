@@ -1,11 +1,26 @@
 {{#if thread}}
 <div id="home">
+  <header class="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
+        <h2><a class="navbar-brand" href="#">Local Threads</a><i class="fa fa-search"></i></h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            <ul class="navbar-nav ml-auto justify-content-end">
+                <li class="nav-item ml-5">
+                     <button class = "homepage" class="nav-link"> Home </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  </header>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2">
+      <div class="col-12">
         <h2>Edit Post</h2>
 
-        <button id = "homepage"> ← Back To Home </button>
+        {{!-- <button id = "homepage"> ← Back To Home </button> --}}
         <div class="card">
           <div class="card-body">
             <form class="clearfix mb-4" method="POST">

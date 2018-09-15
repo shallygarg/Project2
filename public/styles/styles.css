@@ -1,14 +1,14 @@
 .list-group-item {
   line-height: 2.5;
+  border: 10px solid rgb(192, 190, 190);
 }
 .card{
-  margin: 15px;
+  margin-top : 100px;
+
 }
 .button{
   display: inline-block;
   padding: 3px 5px;
-  /* border: 1px solid #000;
-  background: #eee; */
   color: rgba(0,0,0,.5);
 }
 
@@ -18,4 +18,42 @@
 
 .page-card card {
   margin-top: 25%;
+}
+
+.logo{
+  width: 500;
+  height: 500px;
+}
+
+.btn{
+  margin: 5px;
+}
+
+.like{
+  background-color: gray;
+  margin: 5px 5px 0px 0px;
+  height: 36px;
+  color: white;
+}
+
+body{
+  background-color: rgb(192, 190, 190);
+}
+
+.newDescription{
+  display: block;
+}
+
+#signout, .homepage{
+  border-color: gray;
+  background-color:gray;
+  color: white;
+  margin-right: 40px;
+}
+
+.navbar-brand{
+  font-size: 1.5rem;
+}
+.jumbotron{
+  width: 100%;
 }

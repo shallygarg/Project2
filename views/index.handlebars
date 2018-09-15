@@ -1,11 +1,29 @@
 <div id="home">
+  <header class="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
+        <h2><a class="navbar-brand" href="#">Local Threads</a><i class="fa fa-search"></i></h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            <ul class="navbar-nav ml-auto justify-content-end">
+                <li class="nav-item ml-5">
+                     <button id = "signout" class="nav-link"> Signout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  </header>
   <div class="container">
+    <div class = "jumbotron">
+          <h1 align = center>{{msg}}</h1>
+          {{!-- <h2>Do you know your Neighbors!</h2> --}}
+        </div>
     <div class="row">
-      <div class="col-8 offset-2">
-        <button id = "signout"> Signout</button>
-
-        <h1>{{msg}}</h1>
-        <h2>This is our Home Page!</h2>
+      <div class="col-12">
+        {{!-- <button id = "signout"> Signout</button> --}}
+        
+        
 
         <div class="card">
           <div class="card-body">
@@ -33,9 +51,15 @@
               {{#each threads}}
                 <li data-id="{{this.id}}" class="list-group-item">
                   <a href="thread/{{this.id}}">{{this.text}}</a>
+                  <br>
+                  {{#if this.imageFileName}}
+                    <img class="img-fluid" src="/images/uploads/{{this.imageFileName}}" />
+                  {{/if}}
+                  <p class = "newDescription">{{this.description}}</p>
+                  <hr>
                   <button class="btn btn-danger float-right delete">ｘ</button>
                   <button class="btn btn-primary float-right edit">Edit</button>
-                  <button class="btn btn-warning float-right like">Like</button>
+                  <button class="fa fa-thumbs-up float-right like">Like</button>
                   <span class="float-right mr-5 disabled font-italic" id="count">Total Likes: {{this.likes}}</span>
                 </li>
               {{/each}}
