@@ -26,7 +26,7 @@ module.exports = function(app) {
   app.get("/", verifyToken, function(req, res) {
     db.Thread.findAll({}).then(function(data) {
       res.render("index", {
-        msg: "Speak your mind!",
+        msg: "Don't be afraid to speak your mind...",
         threads: data
       });
     });
