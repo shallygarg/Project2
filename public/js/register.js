@@ -1,4 +1,4 @@
-var $register = $(".register");
+var $register = $("#register");
 var $newUserId = $("#newUserID");
 var $newPassword = $("#newUserPassword");
 var $reenterPassword = $("#reenterPassword");
