@@ -5,6 +5,8 @@ var jwt = require("jsonwebtoken");
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
+var bcrypt = require("bcrypt");
+var BCRYPT_SALT_ROUNDS = 10;
 
 var imageUpload = multer({
   dest: path.join(__dirname, "..", "public", "images", "uploads"),
@@ -108,7 +110,7 @@ module.exports = function(app) {
     console.log("in token");
     if (req.body.userName && req.body.userPassword) {
       db.Users.findOne({
-        where: { username: req.body.userName, password: req.body.userPassword }
+        where: { username: req.body.userName }
       }).then(function(data) {
         console.log("user found ----------------data");
         console.log(data);
@@ -118,19 +120,39 @@ module.exports = function(app) {
             message: "user does not exist. Please register before signing in"
           });
         } else {
-          var payload = {
-            id: data.id
-          };
-          console.log(payload);
-          //
-          var token = jwt.sign(payload, cfg.jwtSecret);
-          console.log(cfg.jwtSecret + "secret in api routes");
-          console.log("payload id: " + payload.id);
-          console.log("token generated: " + token);
-          res.json({
-            token: token
+          bcrypt.compare(req.body.userPassword, data.password, function(
+            err,
+            same
+          ) {
+            if (err) {
+              console.log(err);
+              res.json({
+                message: "failed to compare passwords"
+              });
+              return;
+            }
+
+            if (!same) {
+              res.json({
+                message: "password does not match"
+              });
+              return;
+            }
+
+            var payload = {
+              id: data.id
+            };
+            console.log(payload);
+            //
+            var token = jwt.sign(payload, cfg.jwtSecret);
+            console.log(cfg.jwtSecret + "secret in api routes");
+            console.log("payload id: " + payload.id);
+            console.log("token generated: " + token);
+            res.json({
+              token: token
+            });
+            //res.json(data);
           });
-          //res.json(data);
         }
       });
     } else {
@@ -151,14 +173,26 @@ module.exports = function(app) {
             message: "User already existst. Please select a different username"
           });
         } else {
-          db.Users.create({
-            username: req.body.userName,
-            password: req.body.userPassword
-            //data
-          }).then(function() {
-            res.json({
-              message:
-                "User created successfully. You can signin to Local threads now"
+          bcrypt.hash(req.body.userPassword, BCRYPT_SALT_ROUNDS, function(
+            err,
+            passwordHash
+          ) {
+            if (err) {
+              console.log(err);
+              res.json({
+                message: "Failed to hash password"
+              });
+              return;
+            }
+            db.Users.create({
+              username: req.body.userName,
+              password: passwordHash
+              //data
+            }).then(function() {
+              res.json({
+                message:
+                  "User created successfully. You can signin to Local threads now"
+              });
             });
           });
         }
