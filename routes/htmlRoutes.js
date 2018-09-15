@@ -16,7 +16,8 @@ module.exports = function(app) {
       if (decodedToken !== undefined) {
         success();
       } else {
-        console.log("you need to signin");
+        // redirect if not logged in
+        res.redirect("/signin");
       }
     });
   }
