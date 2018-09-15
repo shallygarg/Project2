@@ -1,5 +1,5 @@
 // Get references to page elements
-var $signout = $("#signout");
+var $signout = $(".signout");
 var $threadText = $("#thread-text");
 var $threadDescription = $("#thread-description");
 var $submitBtn = $("#submit");
@@ -109,6 +109,7 @@ var refreshThreads = function() {
         .text("Total Likes: " + data.likes);
 
       $li.append($a);
+      $li.append("<br>");
       if (data.imageFileName !== null) {
         $li.append($image);
       }
