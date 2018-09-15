@@ -1,6 +1,6 @@
 // //Authentication elements
 
-var $signin = $("#signin");
+var $signin = $(".signin");
 var $username = $("#username");
 var $password = $("#password");
 
@@ -11,7 +11,7 @@ $($signin).on("click", function(event) {
     password: $password.val().trim()
   };
   event.preventDefault();
-  console.log(" sigining");
+  console.log("sigining");
   console.log(user.username);
   console.log(user.password);
 
