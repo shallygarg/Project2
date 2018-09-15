@@ -10,7 +10,7 @@ var API = {
     var formData = new FormData();
     formData.append("id", data.id);
     formData.append("text", data.text);
-    formData.append("description", data.text);
+    formData.append("description", data.description);
     formData.append("image", data.image);
 
     return $.ajax({
