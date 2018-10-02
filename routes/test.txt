@@ -1,0 +1,68 @@
+// $.ajax("/secret", {
+        //   type: "GET",
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader("Authorization", token);
+        //   }
+        // }).then(function(data) {
+        //   console.log(data);
+        //   // if (data.success === true) {
+        //   //   //window.location.href = "/secret";
+        //   //   console.log("in secret" + data);
+        //   // }
+        //});
+
+
+
+
+        <label> User Name </label>
+<input id = "username">
+<label> Password </label>
+<input id = "password" type = "password">
+<button id = "signin"> Signin</button>
+<br>
+<a href="/register" class="button">New User</a>
+
+
+//             db.Users.create({
+//               username: req.body.userName,
+//               password: passwordHash
+//             }).then(function(data) {
+//               res.json(data);
+
+
+
+{{!-- <header class="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
+        <h2><a class="navbar-brand" href="#">Local Threads</a><i class="fa fa-search"></i></h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            <ul class="navbar-nav ml-auto justify-content-end">
+                <li class="nav-item ml-5">
+                     {{!-- <button class = "homepage" class="nav-link"> Home </button> --}}
+                     <button class="homepage" class="btn btn-block"> Home </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  </header> --}}
+
+
+  index:
+
+    {{!-- <header class="navbar">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
+        <h2><a class="navbar-brand" href="#">Local Threads</a><i class="fa fa-search"></i></h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarCollapse">
+            <ul class="navbar-nav ml-auto justify-content-end">
+                <li class="nav-item ml-5">
+                     <button id = "signout" class="nav-link"> Signout</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+  </header> --}}
