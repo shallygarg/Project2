@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-eslint": "^9.0.0",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "eslint-plugin-html": "^4.0.5",
